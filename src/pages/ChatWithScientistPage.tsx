@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate, useParams } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import ChatBubble from '@/components/composites/ChatBubble'
 import { ChevronLeft } from 'lucide-react'
 import { useChatApi } from '@/hooks/api'
+import { SCIENTISTS } from '@/constants/scientists'
 
 interface Message {
   id: number
@@ -16,7 +17,7 @@ interface Message {
 }
 
 export function ChatWithScientistPage() {
-  const { scientist } = useParams({ from: '/chat/$scientist' })
+  const { scientist: scientistId } = useParams({ from: '/chat/$scientist' })
   const navigate = useNavigate()
   const { sendMessage, isLoading } = useChatApi()
   const [messages, setMessages] = useState<Message[]>([
@@ -30,6 +31,28 @@ export function ChatWithScientistPage() {
     },
   ])
   const [input, setInput] = useState('')
+
+  const scientist = useMemo(
+    () => SCIENTISTS.find(s => s.id === scientistId),
+    [scientistId]
+  )
+
+  if (!scientist) {
+    return (
+      <div className="flex h-dvh flex-col items-center justify-center p-4">
+        <h2 className="text-xl font-bold text-red-500">
+          존재하지 않는 과학자입니다.
+        </h2>
+        <Button
+          variant="ghost"
+          className="mt-4"
+          onClick={() => navigate({ to: '/chat' })}
+        >
+          돌아가기
+        </Button>
+      </div>
+    )
+  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -90,7 +113,7 @@ export function ChatWithScientistPage() {
         >
           <ChevronLeft />
         </Button>
-        <h2 className="text-center text-2xl font-bold">{scientist}</h2>
+        <h2 className="text-center text-2xl font-bold">{scientist.name}</h2>
         <span className="w-[32px]"></span>
       </header>
 

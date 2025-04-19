@@ -50,7 +50,7 @@ export default function VocaCard({ term }: VocaCardProps) {
           <CardContent className="flex flex-1 flex-col justify-between">
             <div className="text-gray-600">{term.description}</div>
             <div className="flex justify-end">
-              <Link to="/voca/$termId" params={{ termId: String(term.termId) }}>
+              <Link to="/voca/$termId" params={{ termId: term.termId }}>
                 <Button variant="outline">뜻 보기</Button>
               </Link>
             </div>
