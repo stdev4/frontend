@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 interface QuizCardProps {
   question: Quiz
-  onSubmit: () => Promise<QuizResponse>
+  onSubmit: (answer: boolean) => Promise<QuizResponse>
   isLoading: boolean
 }
 
@@ -16,13 +16,11 @@ export default function QuizCard({
   isLoading,
 }: QuizCardProps) {
   const [isFlipped, setIsFlipped] = useState(false)
-  const [, setUserAnswer] = useState<boolean | null>(null)
   const [result, setResult] = useState<QuizResponse | null>(null)
 
   const handleAnswer = async (answer: boolean) => {
     try {
-      setUserAnswer(answer)
-      const response = await onSubmit()
+      const response = await onSubmit(answer)
       setResult(response)
       setIsFlipped(true)
     } catch (error) {
@@ -32,7 +30,6 @@ export default function QuizCard({
 
   const handleReset = () => {
     setIsFlipped(false)
-    setUserAnswer(null)
     setResult(null)
   }
 

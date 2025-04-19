@@ -7,7 +7,7 @@ import QuizCard from '../composites/QuizCard'
 
 export default function DailyQuiz() {
   const [isLoading, setIsLoading] = useState(false)
-  const { getDailyQuiz } = useQuizApi()
+  const { getDailyQuiz, submitQuiz } = useQuizApi()
   const [currentQuestion, setCurrentQuestion] = useState<Quiz | null>(null)
 
   useEffect(() => {
@@ -26,11 +26,19 @@ export default function DailyQuiz() {
     fetchDailyQuiz()
   }, [getDailyQuiz])
 
-  const handleSubmit = async (): Promise<QuizResponse> => {
+  const handleSubmit = async (answer: boolean): Promise<QuizResponse> => {
+    if (!currentQuestion) {
+      throw new Error('Question is missing')
+    }
+
     try {
       setIsLoading(true)
-      // TODO: submitQuiz API 구현 필요
-      return null as unknown as QuizResponse
+      const response = await submitQuiz({
+        userId:3,
+        quizId: currentQuestion.quizId,
+        answer,
+      })
+      return response
     } catch (error) {
       console.error('Failed to submit answer:', error)
       throw error
