@@ -8,7 +8,8 @@ export function Navbar() {
     { path: '/', label: '홈' },
     { path: '/quiz', label: '퀴즈' },
     { path: '/voca', label: '단어장' },
-    { path: '/mypage', label: '마이페이지' },
+    { path: '/chat', label: '채팅' },
+    { path: '/mypage', label: '내 정보' },
   ]
 
   return (
@@ -18,7 +19,7 @@ export function Navbar() {
           <Link
             key={item.path}
             to={item.path}
-            className={`flex w-[6rem] items-center justify-center rounded-md px-3 py-2 text-sm font-medium ${
+            className={`flex w-[4rem] items-center justify-center rounded-md px-3 py-2 text-sm font-medium ${
               currentPath === item.path
                 ? 'bg-secondary text-secondary-foreground'
                 : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
