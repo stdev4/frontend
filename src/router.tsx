@@ -13,6 +13,7 @@ import { ChatPage } from './pages/ChatPage'
 import { InterestQuizPage } from './pages/InterestQuizPage'
 import VocaDetailPage from './pages/VocaDetailPage'
 import { ChatWithScientistPage } from './pages/ChatWithScientistPage'
+import UserOnboardingPage from './pages/UserOnboardingPage'
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -72,6 +73,12 @@ const myPageRoute = createRoute({
   component: MyPage,
 })
 
+const userOnboardingRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/onboarding',
+  component: UserOnboardingPage,
+})
+
 const routeTree = rootRoute.addChildren([
   indexRoute,
   quizRoute,
@@ -81,7 +88,8 @@ const routeTree = rootRoute.addChildren([
   myPageRoute,
   randomQuizRoute,
   interestQuizRoute,
-  chatWithScientistRoute
+  chatWithScientistRoute,
+  userOnboardingRoute,
 ])
 
 export const router = createRouter({ routeTree })

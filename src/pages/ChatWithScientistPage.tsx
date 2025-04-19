@@ -1,11 +1,105 @@
-import { useParams } from '@tanstack/react-router'
+import { useState } from 'react'
+import { useNavigate, useParams } from '@tanstack/react-router'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import ChatBubble from '@/components/composites/ChatBubble'
+import { ChevronLeft } from 'lucide-react'
+
+interface Message {
+  id: number
+  content: string
+  isUser: boolean
+  timestamp: string
+  avatarUrl?: string
+  avatarFallback?: string
+}
 
 export function ChatWithScientistPage() {
   const { scientist } = useParams({ from: '/chat/$scientist' })
+  const navigate = useNavigate()
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 1,
+      content: '안녕하세요! 과학에 대해 궁금한 점이 있으신가요?',
+      isUser: false,
+      timestamp: '10:00',
+      avatarUrl: '/avatars/einstein.jpg',
+      avatarFallback: 'AI',
+    },
+  ])
+  const [input, setInput] = useState('')
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!input.trim()) return
+
+    const newMessage: Message = {
+      id: messages.length + 1,
+      content: input,
+      isUser: true,
+      timestamp: new Date().toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    }
+
+    setMessages([...messages, newMessage])
+    setInput('')
+
+    // TODO: API 호출로 응답 받기
+    setTimeout(() => {
+      const response: Message = {
+        id: messages.length + 2,
+        content: '네, 좋은 질문이네요!',
+        isUser: false,
+        timestamp: new Date().toLocaleTimeString('ko-KR', {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      }
+      setMessages(prev => [...prev, response])
+    }, 1000)
+  }
+
   return (
-    <>
-      <h1>ChatWithScientistPage</h1>
-      <h2>{scientist}</h2>
-    </>
+    <div className="flex h-dvh flex-col">
+      <header className="flex items-center justify-between border-b p-4">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="mr-2"
+          onClick={() => navigate({ to: '/chat' })}
+        >
+          <ChevronLeft />
+        </Button>
+        <h2 className="text-center text-2xl font-bold">{scientist}</h2>
+        <span className="w-[32px]"></span>
+      </header>
+
+      <div className="mb-auto space-y-4 overflow-y-auto p-4">
+        {messages.map(message => (
+          <ChatBubble
+            key={message.id}
+            message={message.content}
+            isUser={message.isUser}
+            timestamp={message.timestamp}
+            avatarUrl={message.avatarUrl}
+            avatarFallback={message.avatarFallback}
+          />
+        ))}
+      </div>
+
+      <form onSubmit={handleSubmit} className="border-t p-4">
+        <div className="flex gap-2">
+          <Input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="메시지를 입력하세요..."
+            className="flex-1"
+          />
+          <Button type="submit">전송</Button>
+        </div>
+      </form>
+    </div>
   )
 }

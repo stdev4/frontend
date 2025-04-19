@@ -8,19 +8,19 @@ export function ChatPage() {
       <SelectScientistButton
         name="뉴턴"
         image="https://placehold.co/"
-        description="뉴턴은 뉴턴의 운동 법칙을 발표한 과학자입니다."
+        description="사과가 떨어지는 걸 보고 세상 모든 물건이 끌어당기는 힘이 있다는 걸 알아낸 과학자"
       />
       {/* 마리 퀴리 */}
       <SelectScientistButton
         name="마리 퀴리"
         image="https://placehold.co/"
-        description="마리 퀴리는 퀴리 효과를 발견한 과학자입니다."
+        description="눈에 보이지 않는 방사능이라는 힘을 발견한 용감한 과학자"
       />
       {/* 아인슈타인 */}
       <SelectScientistButton
         name="아인슈타인"
         image="https://placehold.co/"
-        description="아인슈타인은 상대성 이론을 발표한 과학자입니다."
+        description="시간과 공간이 늘어나거나 줄어들 수 있다는 걸 알아낸 천재 과학자"
       />
     </div>
   )
@@ -36,7 +36,11 @@ export function SelectScientistButton({
   description: string
 }) {
   return (
-    <Link to="/chat/$scientist" params={{ scientist: name }} className="block">
+    <Link
+      to="/chat/$scientist"
+      params={{ scientist: name }}
+      className="block cursor-pointer"
+    >
       <button className="flex w-full items-center justify-center gap-10 rounded-lg border p-8">
         <div className="size-24 overflow-hidden rounded-full">
           <img src={image} alt={name} className="h-24 w-24" />
