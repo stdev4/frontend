@@ -1,0 +1,24 @@
+{
+  "dailyQuiz": {
+    "status": 200,
+    "message": "Success",
+    "data": [
+      {
+        "quizId": 1,
+        "question": "비행기 안에서는 볼펜이 폭발할 수 있다.",
+        "field": ["physics"],
+        "createdAt": "2025-04-19T13:29:00"
+      }
+    ]
+  },
+  "submitResponse": {
+    "status": 200,
+    "message": "Success",
+    "data": {
+      "answer": true,
+      "explanationTitle": "빛은 파동성과 입자성을 모두 가져요.",
+      "explanationBody": "빛은 파동성과 입자성을 모두 가지는 이중성을 가지고 있어요. 이는 양자역학의 핵심 개념 중 하나입니다.",
+      "correctRate": 83.4
+    }
+  }
+}

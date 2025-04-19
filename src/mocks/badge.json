@@ -1,0 +1,16 @@
+{
+  "status": 200,
+  "message": "Success",
+  "data": {
+    "badges": [
+      {
+        "badgeName": "인기짱",
+        "earnedDate": "2025-04-01"
+      },
+      {
+        "badgeName": "과학마스터",
+        "earnedDate": "2025-04-15"
+      }
+    ]
+  }
+}
