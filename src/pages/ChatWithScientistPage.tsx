@@ -25,7 +25,10 @@ export function ChatWithScientistPage() {
       id: 1,
       content: '안녕하세요! 과학에 대해 궁금한 점이 있으신가요?',
       isUser: false,
-      timestamp: '10:00',
+      timestamp: new Date().toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
       avatarUrl: SCIENTISTS.find(s => s.id === scientistId)?.image,
       avatarFallback: 'AI',
     },
@@ -75,14 +78,14 @@ export function ChatWithScientistPage() {
       const response = await sendMessage(input)
       const aiMessage: Message = {
         id: messages.length + 2,
-        content: response.answer,
+        content: response.response,
         isUser: false,
         timestamp: new Date().toLocaleTimeString('ko-KR', {
           hour: '2-digit',
           minute: '2-digit',
         }),
-        avatarUrl: '/avatars/einstein.jpg',
-        avatarFallback: 'AI',
+        avatarUrl: scientist.image,
+        avatarFallback: scientist.name[0],
       }
       setMessages(prev => [...prev, aiMessage])
     } catch (error) {
@@ -128,6 +131,18 @@ export function ChatWithScientistPage() {
             avatarFallback={message.avatarFallback}
           />
         ))}
+        {isLoading && (
+          <ChatBubble
+            message="..."
+            isUser={false}
+            timestamp={new Date().toLocaleTimeString('ko-KR', {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+            avatarUrl={scientist.image}
+            avatarFallback={scientist.name[0]}
+          />
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="border-t p-4">
