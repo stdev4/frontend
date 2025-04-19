@@ -7,8 +7,6 @@ import { ChevronLeft } from 'lucide-react'
 import { useChatApi } from '@/hooks/api'
 import { SCIENTISTS } from '@/constants/scientists'
 
-
-
 interface Message {
   id: number
   content: string
@@ -21,7 +19,7 @@ interface Message {
 export function ChatWithScientistPage() {
   const { scientist: scientistId } = useParams({ from: '/chat/$scientist' })
   const navigate = useNavigate()
-  const { sendMessage, isLoading } = useChatApi()
+  const { sendMessage, isLoading } = useChatApi(scientistId)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
