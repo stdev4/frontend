@@ -5,10 +5,11 @@ import type {
   QuizSubmitRequest,
   CustomQuizRequest,
   QuizResponse,
+  ApiResponse,
 } from '../../types/api'
 
 export function useQuizApi() {
-  const { fetchData: fetchQuizList, ...rest } = useBaseApi<Quiz[]>()
+  const { fetchData: fetchQuizList, ...rest } = useBaseApi<ApiResponse<Quiz>>()
   const { fetchData: fetchQuizResponse } = useBaseApi<QuizResponse>()
 
   const getDailyQuiz = useCallback(

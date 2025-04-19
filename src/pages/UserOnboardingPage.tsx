@@ -7,6 +7,7 @@ import { useUserApi, type UserOnboardingRequest } from '@/hooks/api/useUserApi'
 import { INTEREST_LIST, InterestKey } from '@/constants/interests'
 
 interface UserInfo {
+  userId: number
   username: string
   nickname: string
   interest: InterestKey
@@ -31,6 +32,7 @@ export default function UserOnboardingPage() {
     interest: 'OTHERS',
     password: '',
     age: 0,
+    userId: 0,
   })
   const [errors, setErrors] = useState<UserInfoErrors>({})
   const [isNicknameChecking, setIsNicknameChecking] = useState(false)

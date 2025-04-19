@@ -14,6 +14,36 @@
         "name": "용해",
         "description": "용질이 용매와 고르게 섞이는 현상.",
         "field": ["chemistry"]
+      },
+      {
+        "termId": 3,
+        "name": "증발",
+        "description": "액체가 표면에서 기체로 상태 변화하는 현상. 열에너지의 흡수에 의해 일어남.",
+        "field": ["physics", "chemistry"]
+      },
+      {
+        "termId": 4,
+        "name": "중력",
+        "description": "질량을 가진 두 물체 사이에 작용하는 끌어당기는 힘. 지구가 사물이나 사람을 끌어당기는 힘도 이에 해당됨.",
+        "field": ["physics"]
+      },
+      {
+        "termId": 5,
+        "name": "세포",
+        "description": "생물의 구조와 기능의 기본 단위. 모든 생명체는 세포로 이루어져 있음.",
+        "field": ["biology"]
+      },
+      {
+        "termId": 6,
+        "name": "광합성",
+        "description": "식물이 빛 에너지를 이용해 이산화탄소와 물로부터 포도당을 만드는 과정. 산소도 함께 생성됨.",
+        "field": ["biology"]
+      },
+      {
+        "termId": 7,
+        "name": "원자",
+        "description": "물질을 구성하는 기본 입자. 핵(양성자와 중성자)과 전자로 구성되어 있음.",
+        "field": ["chemistry"]
       }
     ]
   }

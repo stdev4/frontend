@@ -1,26 +1,46 @@
 'use client'
 
-import quizData from '@/mocks/quiz.json'
-import type { QuizResponse } from '@/types/quiz'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useQuizApi } from '@/hooks/api/useQuizApi'
+import type { Quiz, QuizResponse } from '@/types/quiz'
 import QuizCard from '../composites/QuizCard'
 
 export default function DailyQuiz() {
   const [isLoading, setIsLoading] = useState(false)
-  const currentQuestion = quizData.dailyQuiz.data[0]
+  const { getDailyQuiz } = useQuizApi()
+  const [currentQuestion, setCurrentQuestion] = useState<Quiz | null>(null)
+
+  useEffect(() => {
+    const fetchDailyQuiz = async () => {
+      try {
+        setIsLoading(true)
+        const response = await getDailyQuiz()
+        setCurrentQuestion(response.data)
+      } catch (error) {
+        console.error('Failed to fetch daily quiz:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchDailyQuiz()
+  }, [getDailyQuiz])
 
   const handleSubmit = async (): Promise<QuizResponse> => {
     try {
       setIsLoading(true)
-      // 임시로 mock 응답을 사용
-      await new Promise(resolve => setTimeout(resolve, 1000)) // 로딩 효과를 위한 딜레이
-      return quizData.submitResponse.data
+      // TODO: submitQuiz API 구현 필요
+      return null as unknown as QuizResponse
     } catch (error) {
       console.error('Failed to submit answer:', error)
       throw error
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (!currentQuestion) {
+    return <div>Loading...</div>
   }
 
   return (
