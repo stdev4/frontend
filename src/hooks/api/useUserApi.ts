@@ -1,15 +1,26 @@
 import { useCallback } from 'react'
 import { useBaseApi } from './useBaseApi'
-import type { User, UserOnboardingRequest } from '../../types/api'
+import type { InterestKey } from '@/constants/interests'
+
+export interface UserOnboardingRequest {
+  username: string
+  nickname: string
+  age: number
+  password: string
+  interest: InterestKey
+}
 
 export function useUserApi() {
-  const { fetchData, ...rest } = useBaseApi<User>()
+  const { fetchData, ...rest } = useBaseApi<UserOnboardingRequest>()
 
   const saveUserInfo = useCallback(
     (body: UserOnboardingRequest) =>
       fetchData('/user/onboarding/save', {
         method: 'POST',
-        body: body as unknown as Record<string, unknown>,
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
     [fetchData]
   )
@@ -18,7 +29,10 @@ export function useUserApi() {
     (userId: number, body: UserOnboardingRequest) =>
       fetchData(`/user/${userId}/update`, {
         method: 'PUT',
-        body: body as unknown as Record<string, unknown>,
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       }),
     [fetchData]
   )

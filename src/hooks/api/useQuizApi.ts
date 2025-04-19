@@ -27,7 +27,7 @@ export function useQuizApi() {
     (body: QuizSubmitRequest) =>
       fetchQuizResponse('/quiz/submit', {
         method: 'POST',
-        body: body as unknown as Record<string, unknown>,
+        body: JSON.stringify(body),
       }),
     [fetchQuizResponse]
   )
@@ -35,7 +35,7 @@ export function useQuizApi() {
     (body: CustomQuizRequest) =>
       fetchQuizResponse('/quiz/custom/new', {
         method: 'POST',
-        body: body as unknown as Record<string, unknown>,
+        body: JSON.stringify(body),
       }),
     [fetchQuizResponse]
   )
