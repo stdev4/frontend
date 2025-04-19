@@ -4,7 +4,7 @@ import {
   createRouter,
 } from '@tanstack/react-router'
 import { RootLayout } from './layouts/RootLayout'
-import { HomePage } from './pages/HomePage'
+import HomePage from './pages/HomePage'
 import { QuizPage } from './pages/QuizPage'
 import { VocaPage } from './pages/VocaPage'
 import { MyPage } from './pages/MyPage'
@@ -14,6 +14,7 @@ import { InterestQuizPage } from './pages/InterestQuizPage'
 import VocaDetailPage from './pages/VocaDetailPage'
 import { ChatWithScientistPage } from './pages/ChatWithScientistPage'
 import UserOnboardingPage from './pages/UserOnboardingPage'
+import SignInPage from './pages/SignInPage'
 
 const rootRoute = createRootRoute({
   component: RootLayout,
@@ -23,6 +24,12 @@ const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: HomePage,
+})
+
+const signInRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/signin',
+  component: SignInPage,
 })
 
 const quizRoute = createRoute({
@@ -81,6 +88,7 @@ const userOnboardingRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
+  signInRoute,
   quizRoute,
   vocaRoute,
   vocaDetailRoute,

@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import ChatBubble from '@/components/composites/ChatBubble'
 import { ChevronLeft } from 'lucide-react'
+import { useChatApi } from '@/hooks/api'
 
 interface Message {
   id: number
@@ -17,6 +18,7 @@ interface Message {
 export function ChatWithScientistPage() {
   const { scientist } = useParams({ from: '/chat/$scientist' })
   const navigate = useNavigate()
+  const { sendMessage, isLoading } = useChatApi()
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -29,7 +31,7 @@ export function ChatWithScientistPage() {
   ])
   const [input, setInput] = useState('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!input.trim()) return
 
@@ -46,19 +48,35 @@ export function ChatWithScientistPage() {
     setMessages([...messages, newMessage])
     setInput('')
 
-    // TODO: API 호출로 응답 받기
-    setTimeout(() => {
-      const response: Message = {
+    try {
+      const response = await sendMessage(input)
+      const aiMessage: Message = {
         id: messages.length + 2,
-        content: '네, 좋은 질문이네요!',
+        content: response.answer,
         isUser: false,
         timestamp: new Date().toLocaleTimeString('ko-KR', {
           hour: '2-digit',
           minute: '2-digit',
         }),
+        avatarUrl: '/avatars/einstein.jpg',
+        avatarFallback: 'AI',
       }
-      setMessages(prev => [...prev, response])
-    }, 1000)
+      setMessages(prev => [...prev, aiMessage])
+    } catch (error) {
+      console.error('메시지 전송 실패:', error)
+      const errorMessage: Message = {
+        id: messages.length + 2,
+        content: '죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.',
+        isUser: false,
+        timestamp: new Date().toLocaleTimeString('ko-KR', {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        avatarUrl: '/avatars/einstein.jpg',
+        avatarFallback: 'AI',
+      }
+      setMessages(prev => [...prev, errorMessage])
+    }
   }
 
   return (
@@ -96,8 +114,11 @@ export function ChatWithScientistPage() {
             onChange={e => setInput(e.target.value)}
             placeholder="메시지를 입력하세요..."
             className="flex-1"
+            disabled={isLoading}
           />
-          <Button type="submit">전송</Button>
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? '전송 중...' : '전송'}
+          </Button>
         </div>
       </form>
     </div>

@@ -1,8 +1,6 @@
 import { useState, useCallback } from 'react'
 
-const API_BASE_URL = import.meta.env.PROD
-  ? 'https://stdev4.o-r.kr'
-  : 'http://localhost:5173'
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
 export function useBaseApi<T>() {
   const [isLoading, setIsLoading] = useState(false)

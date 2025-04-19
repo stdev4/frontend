@@ -75,3 +75,8 @@ export interface QuizResponse {
     correctPercentage: number
   }
 }
+
+export interface ChatResponse {
+  answer: string
+  timestamp: string
+}
