@@ -1,13 +1,8 @@
 import { useState, useCallback } from 'react'
-import type { ApiResponse } from '../../types/api'
 
-const API_BASE_URL = '/api'
-
-interface UseApiOptions {
-  method?: 'GET' | 'POST' | 'PUT'
-  headers?: Record<string, string>
-  body?: Record<string, unknown>
-}
+const API_BASE_URL = import.meta.env.PROD
+  ? 'https://stdev4.o-r.kr'
+  : 'http://localhost:5173'
 
 export function useBaseApi<T>() {
   const [isLoading, setIsLoading] = useState(false)
@@ -15,32 +10,29 @@ export function useBaseApi<T>() {
   const [data, setData] = useState<T | null>(null)
 
   const fetchData = useCallback(
-    async (endpoint: string, options: UseApiOptions = {}) => {
+    async (endpoint: string, options: RequestInit = {}) => {
       setIsLoading(true)
       setError(null)
 
       try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-          method: options.method || 'GET',
+          ...options,
           headers: {
             'Content-Type': 'application/json',
             ...options.headers,
           },
-          ...(options.body && { body: JSON.stringify(options.body) }),
         })
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
 
-        const result: ApiResponse<T> = await response.json()
-        setData(result.data)
-        return result.data
+        const data = await response.json()
+        setData(data)
+        return data
       } catch (err) {
-        const error =
-          err instanceof Error ? err : new Error('An error occurred')
-        setError(error)
-        throw error
+        setError(err instanceof Error ? err : new Error('An error occurred'))
+        throw err
       } finally {
         setIsLoading(false)
       }
@@ -49,9 +41,9 @@ export function useBaseApi<T>() {
   )
 
   return {
+    fetchData,
     isLoading,
     error,
     data,
-    fetchData,
   }
 }
