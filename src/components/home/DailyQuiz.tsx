@@ -3,7 +3,7 @@
 import quizData from '@/mocks/quiz.json'
 import type { QuizResponse } from '@/types/quiz'
 import { useState } from 'react'
-import QuizCard from '../QuizCard'
+import QuizCard from '../composites/QuizCard'
 
 export default function DailyQuiz() {
   const [isLoading, setIsLoading] = useState(false)
