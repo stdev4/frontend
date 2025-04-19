@@ -37,11 +37,11 @@ export function SelectScientistButton({
       params={{ scientist: id }}
       className="block cursor-pointer"
     >
-      <button className="flex w-full items-center justify-center gap-10 rounded-lg border p-8">
-        <div className="size-24 overflow-hidden rounded-full">
-          <img src={image} alt={name} className="h-24 w-24" />
+      <button className="flex w-full items-center justify-center gap-4 rounded-lg border p-8">
+        <div className="h-24 w-1/2 overflow-hidden rounded-full">
+          <img src={image} alt={name} className="h-full w-full object-contain" />
         </div>
-        <div className="flex flex-col gap-2 text-center">
+        <div className="flex w-1/2 flex-col gap-2 text-center">
           <h3 className="text-lg font-bold">{name}</h3>
           <p className="text-sm text-gray-500">{description}</p>
         </div>

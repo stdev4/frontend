@@ -7,6 +7,8 @@ import { ChevronLeft } from 'lucide-react'
 import { useChatApi } from '@/hooks/api'
 import { SCIENTISTS } from '@/constants/scientists'
 
+
+
 interface Message {
   id: number
   content: string
@@ -26,7 +28,7 @@ export function ChatWithScientistPage() {
       content: '안녕하세요! 과학에 대해 궁금한 점이 있으신가요?',
       isUser: false,
       timestamp: '10:00',
-      avatarUrl: '/avatars/einstein.jpg',
+      avatarUrl: SCIENTISTS.find(s => s.id === scientistId)?.image,
       avatarFallback: 'AI',
     },
   ])

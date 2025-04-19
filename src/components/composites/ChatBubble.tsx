@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
 
 interface ChatBubbleProps {
-  message: string
+  message: string | { response: string }
   isUser: boolean
   timestamp?: string
   avatarUrl?: string
@@ -16,6 +16,9 @@ export default function ChatBubble({
   avatarUrl,
   avatarFallback,
 }: ChatBubbleProps) {
+  const displayMessage =
+    typeof message === 'string' ? message : message.response
+
   return (
     <div
       className={cn(
@@ -35,7 +38,7 @@ export default function ChatBubble({
           isUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
         )}
       >
-        <p className="text-sm">{message}</p>
+        <p className="text-sm">{displayMessage}</p>
         {timestamp && (
           <p
             className={cn(
