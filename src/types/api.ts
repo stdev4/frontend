@@ -45,9 +45,10 @@ export interface QuizSubmitRequest {
   answer: boolean
 }
 
-export interface QuizSubmitResponse {
-  isCorrect: boolean
-  explanation: string
+export interface QuizResponse {
+  answer: boolean
+  explanationTitle: string
+  explanationBody: string
   correctRate: number
 }
 

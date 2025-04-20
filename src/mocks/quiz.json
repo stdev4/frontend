@@ -7,7 +7,9 @@
         "quizId": 1,
         "question": "비행기 안에서는 볼펜이 폭발할 수 있다.",
         "field": ["PHYSICS"],
-        "createdAt": "2025-04-19T13:29:00"
+        "createdAt": "2025-04-19T13:29:00",
+        "explanationTitle": "고도와 기압의 관계",
+        "explanationBody": "비행기 내부의 기압은 지상보다 낮습니다. 볼펜 내부의 잉크는 기압이 낮은 환경에서 팽창할 수 있어 폭발할 위험이 있습니다."
       }
     ]
   },
@@ -27,19 +29,25 @@
         "quizId": 1,
         "question": "비행기 안에서는 볼펜이 폭발할 수 있다.",
         "field": ["PHYSICS"],
-        "createdAt": "2025-04-19T13:29:00"
+        "createdAt": "2025-04-19T13:29:00",
+        "explanationTitle": "고도와 기압의 관계",
+        "explanationBody": "비행기 내부의 기압은 지상보다 낮습니다. 볼펜 내부의 잉크는 기압이 낮은 환경에서 팽창할 수 있어 폭발할 위험이 있습니다."
       },
       {
         "quizId": 2,
         "question": "태양은 별이다.",
         "field": ["ASTRONOMY"],
-        "createdAt": "2025-04-19T13:29:00"
+        "createdAt": "2025-04-19T13:29:00",
+        "explanationTitle": "태양의 정체",
+        "explanationBody": "태양은 우리 은하계의 중심에 있는 항성입니다. 수소와 헬륨으로 이루어진 가스 덩어리로, 핵융합 반응을 통해 에너지를 방출합니다."
       },
       {
         "quizId": 3,
         "question": "물은 100도에서 끓는다.",
         "field": ["CHEMISTRY"],
-        "createdAt": "2025-04-19T13:29:00"
+        "createdAt": "2025-04-19T13:29:00",
+        "explanationTitle": "물의 끓는점",
+        "explanationBody": "물의 끓는점은 기압에 따라 달라집니다. 해수면에서 물은 100도에서 끓지만, 고도가 높아질수록 기압이 낮아져 끓는점도 낮아집니다."
       }
     ]
   }

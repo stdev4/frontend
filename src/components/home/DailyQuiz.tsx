@@ -34,11 +34,11 @@ export default function DailyQuiz() {
     try {
       setIsLoading(true)
       const response = await submitQuiz({
-        userId:3,
+        userId: 1, // TODO: 실제 사용자 ID로 변경 필요
         quizId: currentQuestion.quizId,
         answer,
       })
-      return response
+      return response.data
     } catch (error) {
       console.error('Failed to submit answer:', error)
       throw error
