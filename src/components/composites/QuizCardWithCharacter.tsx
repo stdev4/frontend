@@ -4,6 +4,8 @@ import { Quiz } from '@/types/quiz'
 import { Circle, HelpCircle, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import character from '@/assets/character.png'
+import smile from '@/assets/smile.png'
+import sad from '@/assets/sad.png'
 
 interface QuizCardProps {
   question: Quiz
@@ -60,13 +62,26 @@ export default function QuizCardWithCharacter({
     setIsFlipped(false)
   }
 
+  const getCharacterImage = () => {
+    if (isFlipped && result) {
+      return result.answer ? smile : sad
+    }
+    return character
+  }
+
   return (
     <div className="relative h-[400px] w-full max-w-2xl">
       <div className="flex h-[100px] w-full gap-4">
         <div className="h-full w-1/2 overflow-hidden">
-          <img src={character} className="object-cover" alt="character" />
+          <img
+            src={getCharacterImage()}
+            className={`object-cover transition-opacity duration-500 ${
+              isFlipped ? 'opacity-100' : 'opacity-100'
+            }`}
+            alt="character"
+          />
         </div>
-        <div className="flex h-full w-full items-center justify-center rounded-tl-full rounded-r-full border">
+        <div className="flex h-full w-full items-center justify-center rounded-tl-full rounded-r-full bg-amber-100">
           {isFlipped && result ? (
             result.answer ? (
               <div className="flex flex-col items-center justify-center text-green-600">

@@ -1,10 +1,10 @@
 'use client'
 
 import QuizCardWithCharacter from '@/components/composites/QuizCardWithCharacter'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Confetti, type ConfettiRef } from '@/components/magicui/confetti'
 import quizData from '@/mocks/quiz.json'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 export function RandomQuizPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -18,6 +18,7 @@ export function RandomQuizPage() {
     }>
   >([])
   const [isCompleted, setIsCompleted] = useState(false)
+  const confettiRef = useRef<ConfettiRef>(null)
 
   const quizzes = quizData.randomQuiz.data
 
@@ -42,6 +43,14 @@ export function RandomQuizPage() {
       setCurrentIndex(prev => prev + 1)
     } else {
       setIsCompleted(true)
+      // 결과 카드가 나타날 때 컨페티 발사
+      setTimeout(() => {
+        confettiRef.current?.fire({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        })
+      }, 500)
     }
   }
 
@@ -61,7 +70,11 @@ export function RandomQuizPage() {
     const correctRate = Math.round((correctCount / totalCount) * 100)
 
     return (
-      <div className="space-y-6">
+      <div className="relative space-y-6">
+        <Confetti
+          ref={confettiRef}
+          className="absolute top-0 left-0 z-0 size-full"
+        />
         <h1 className="text-3xl font-bold">퀴즈 결과</h1>
         <Card className="max-w-2xl">
           <CardHeader>
@@ -92,7 +105,12 @@ export function RandomQuizPage() {
               ))}
             </div>
             <div className="flex justify-center">
-              <Button onClick={handleRestart}>다시 풀기</Button>
+              <button
+                onClick={handleRestart}
+                className="border-input bg-background ring-offset-background hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring rounded-md border px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+              >
+                다시 풀기
+              </button>
             </div>
           </CardContent>
         </Card>
