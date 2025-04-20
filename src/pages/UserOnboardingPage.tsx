@@ -17,7 +17,8 @@ interface UserInfoErrors {
 
 export default function UserOnboardingPage() {
   const navigate = useNavigate()
-  const { saveUserInfo, checkNicknameExists } = useUserApi()
+  const { saveUserInfo, checkNicknameExists, checkUsernameExists } =
+    useUserApi()
   const [userInfo, setUserInfo] = useState<UserInfo>({
     userId: 171, // 임시 userId
     username: '',
@@ -28,6 +29,13 @@ export default function UserOnboardingPage() {
   })
   const [errors, setErrors] = useState<UserInfoErrors>({})
   const [isNicknameChecking, setIsNicknameChecking] = useState(false)
+  const [isUsernameChecking, setIsUsernameChecking] = useState(false)
+  const [isNicknameAvailable, setIsNicknameAvailable] = useState<
+    boolean | null
+  >(null)
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState<
+    boolean | null
+  >(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -78,13 +86,16 @@ export default function UserOnboardingPage() {
   const handleCheckNickname = async () => {
     if (!userInfo.nickname) {
       setErrors(prev => ({ ...prev, nickname: '닉네임을 입력해주세요' }))
+      setIsNicknameAvailable(null)
       return
     }
 
     setIsNicknameChecking(true)
     try {
-      const exists = await checkNicknameExists(userInfo.nickname)
-      if (exists) {
+      const response = await checkNicknameExists(userInfo.nickname)
+      const isAvailable = response.data
+      setIsNicknameAvailable(isAvailable)
+      if (!isAvailable) {
         setErrors(prev => ({
           ...prev,
           nickname: '이미 사용 중인 닉네임입니다',
@@ -98,8 +109,41 @@ export default function UserOnboardingPage() {
         ...prev,
         nickname: '닉네임 확인 중 오류가 발생했습니다',
       }))
+      setIsNicknameAvailable(null)
     } finally {
       setIsNicknameChecking(false)
+    }
+  }
+
+  const handleCheckUsername = async () => {
+    if (!userInfo.username) {
+      setErrors(prev => ({ ...prev, username: '아이디를 입력해주세요' }))
+      setIsUsernameAvailable(null)
+      return
+    }
+
+    setIsUsernameChecking(true)
+    try {
+      const response = await checkUsernameExists(userInfo.username)
+      const isAvailable = response.data
+      setIsUsernameAvailable(isAvailable)
+      if (!isAvailable) {
+        setErrors(prev => ({
+          ...prev,
+          username: '이미 사용 중인 아이디입니다',
+        }))
+      } else {
+        setErrors(prev => ({ ...prev, username: undefined }))
+      }
+    } catch (error) {
+      console.error('Error checking username:', error)
+      setErrors(prev => ({
+        ...prev,
+        username: '아이디 확인 중 오류가 발생했습니다',
+      }))
+      setIsUsernameAvailable(null)
+    } finally {
+      setIsUsernameChecking(false)
     }
   }
 
@@ -117,15 +161,28 @@ export default function UserOnboardingPage() {
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="username">아이디</Label>
-          <Input
-            id="username"
-            name="username"
-            value={userInfo.username}
-            onChange={handleInputChange}
-            placeholder="아이디를 입력하세요"
-          />
+          <div className="flex gap-2">
+            <Input
+              id="username"
+              name="username"
+              value={userInfo.username}
+              onChange={handleInputChange}
+              placeholder="아이디를 입력하세요"
+            />
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCheckUsername}
+              disabled={isUsernameChecking}
+            >
+              {isUsernameChecking ? '확인 중...' : '중복 확인'}
+            </Button>
+          </div>
           {errors.username && (
             <p className="text-sm text-red-500">{errors.username}</p>
+          )}
+          {isUsernameAvailable === true && (
+            <p className="text-sm text-green-500">사용 가능한 아이디입니다</p>
           )}
         </div>
 
@@ -150,6 +207,9 @@ export default function UserOnboardingPage() {
           </div>
           {errors.nickname && (
             <p className="text-sm text-red-500">{errors.nickname}</p>
+          )}
+          {isNicknameAvailable === true && (
+            <p className="text-sm text-green-500">사용 가능한 닉네임입니다</p>
           )}
         </div>
 
