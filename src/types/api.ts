@@ -1,3 +1,5 @@
+import type { InterestKey } from '@/constants/interests'
+
 export interface ApiResponse<T> {
   status: number
   message: string
@@ -80,4 +82,13 @@ export interface QuizResponse {
 export interface ChatResponse {
   answer: string
   timestamp: string
+}
+
+export interface UserInfo {
+  userId: number
+  username: string
+  nickname: string
+  interest: InterestKey
+  password: string
+  age: number
 }

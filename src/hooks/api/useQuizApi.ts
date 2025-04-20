@@ -13,15 +13,15 @@ export function useQuizApi() {
   const { fetchData: fetchQuizResponse } = useBaseApi<QuizResponse>()
 
   const getDailyQuiz = useCallback(
-    () => fetchQuizList('/quiz/daily'),
+    (userId: number) => fetchQuizList(`/quiz/daily?userId=${userId}`),
     [fetchQuizList]
   )
   const getInterestQuiz = useCallback(
-    (userId: number) => fetchQuizList(`/quiz/interest?user_id=${userId}`),
+    (userId: number) => fetchQuizList(`/quiz/interest?userId=${userId}`),
     [fetchQuizList]
   )
   const getRandomQuiz = useCallback(
-    (userId: number) => fetchQuizList(`/quiz/random?user_id=${userId}`),
+    (userId: number) => fetchQuizList(`/quiz/random?userId=${userId}`),
     [fetchQuizList]
   )
   const submitQuiz = useCallback(

@@ -5,15 +5,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useUserApi, type UserOnboardingRequest } from '@/hooks/api/useUserApi'
 import { INTEREST_LIST, InterestKey } from '@/constants/interests'
-
-interface UserInfo {
-  userId: number
-  username: string
-  nickname: string
-  interest: InterestKey
-  password: string
-  age: number
-}
+import type { UserInfo } from '@/types/api'
 
 interface UserInfoErrors {
   username?: string
@@ -27,12 +19,12 @@ export default function UserOnboardingPage() {
   const navigate = useNavigate()
   const { saveUserInfo, checkNicknameExists } = useUserApi()
   const [userInfo, setUserInfo] = useState<UserInfo>({
+    userId: 171, // 임시 userId
     username: '',
     nickname: '',
     interest: 'OTHERS',
     password: '',
     age: 0,
-    userId: 0,
   })
   const [errors, setErrors] = useState<UserInfoErrors>({})
   const [isNicknameChecking, setIsNicknameChecking] = useState(false)
@@ -61,10 +53,14 @@ export default function UserOnboardingPage() {
         password: userInfo.password,
         interest: userInfo.interest,
       }
-      await saveUserInfo(request)
+      const response = await saveUserInfo(request)
 
       // 로컬 스토리지에 저장
-      localStorage.setItem('userInfo', JSON.stringify(userInfo))
+      const userInfoToStore: UserInfo = {
+        ...userInfo,
+        userId: response.data.userId, // API 응답에서 userId를 받아서 저장
+      }
+      localStorage.setItem('userInfo', JSON.stringify(userInfoToStore))
 
       // 홈 페이지로 이동
       navigate({ to: '/' })
